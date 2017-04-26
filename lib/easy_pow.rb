@@ -54,13 +54,17 @@ module EasyPow
     digest = Digest::SHA256.digest(prefix + input.rstrip).unpack("C*")
     bits.times do |i|
       if (digest[i / 8] >> (7 - i % 8) & 1) == 0
+        out_s.print "NG\n"
+        out_s.flush
         return false
       end
     end
+    out_s.print "OK\n"
+    out_s.flush
     return true
   end
 
-  def solve(input)
+  def solve_line(input)
     if /The first (\d+)-bits of sha256\("(.{16})"/ =~ input
       search_prefix('sha256', '1' * $1.to_i, 12, $2)[16..-1]
     else
@@ -68,6 +72,17 @@ module EasyPow
     end
   end
 
+  def solve(socket = nil)
+    if socket.is_a?(String)
+      return self.solve_line(input)
+    else
+      line = socket.gets
+      socket.print solve_line(line) + "\n"
+      socket.flush
+      socket.gets == "OK\n"
+    end
+  end
+
   module_function :search_prefix, :search_suffix
-  module_function :easy_pow, :solve
+  module_function :easy_pow, :solve, :solve_line
 end
