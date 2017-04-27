@@ -165,7 +165,7 @@ void Init_ext()
 {
   VALUE module = rb_define_module("EasyPow");
   rb_define_module_function(module, "search_md5_ext", search_md5, 7);
-  rb_define_module_function(module, "search_sh1_ext", search_sha1, 7);
+  rb_define_module_function(module, "search_sha1_ext", search_sha1, 7);
   rb_define_module_function(module, "search_sha224_ext", search_sha224, 7);
   rb_define_module_function(module, "search_sha256_ext", search_sha256, 7);
   rb_define_module_function(module, "search_sha384_ext", search_sha384, 7);
