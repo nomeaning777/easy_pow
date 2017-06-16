@@ -29,13 +29,11 @@ unsigned char * safe_malloc(size_t length) {
 void search(unsigned char *data, size_t pos, unsigned char * restrict md, struct search_condition *cond) {
   if(cond->result != NULL) return; // Found Already
   if(pos == cond->search_length) {
-	  int64_t *mdc = __builtin_assume_aligned(md, 16);
-	  int64_t *mask = __builtin_assume_aligned(cond->mask, 16);
-    // ハッシュ関数
+	  // ハッシュ関数
     (cond->hash)(data, cond->length, md);
 
-    for(size_t i = 0; i < cond->md_len / 8; i++) {
-      mdc[i] &= mask[i];
+    for(size_t i = 0; i < cond->md_len; i++) {
+      md[i] &= cond->mask[i];
     }
 
     if(memcmp(md, cond->target, cond->md_len) == 0) {
