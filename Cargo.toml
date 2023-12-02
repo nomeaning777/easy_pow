@@ -1,0 +1,3 @@
+[workspace]
+members = ["easy_pow", "easy_pow_py", "easy_pow_rb"]
+resolver = "2"

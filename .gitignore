@@ -7,3 +7,18 @@
 /pkg/
 /spec/reports/
 /tmp/
+/target
+*.so
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+.pytest_cache/
+*.py[cod]
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml

@@ -23,8 +23,8 @@ Or install it yourself as:
 ### Solver
 
 ```
-EasyPow.search_prefix(hash_type, prefix_bin, length, prefix, suffix = '', chars = '012...9ABC...Zabcd...z', parallel = true)
-EasyPow.search_suffix(hash_type, suffix_bin, length, prefix, suffix = '', chars = '012...9ABC...Zabcd...z', parallel = true)
+EasyPow.search_prefix(hash_type, prefix_bin, length, prefix, suffix = '', chars = '012...9ABC...Zabcd...z')
+EasyPow.search_suffix(hash_type, suffix_bin, length, prefix, suffix = '', chars = '012...9ABC...Zabcd...z')
 
 hash_type: :md5, :sha1, :sha224, :sha256, :sha384, :sha512
 prefix_bin, suffix_bin: binary string of prefix or suffix (ex '0' * 24)
@@ -32,7 +32,6 @@ length: search string length ( except suffix and prefix length)
 prefix: prefix string
 suffix: suffix string
 chars: search characters
-parallel: use OpenMP
 
 Example:
 pry(main)> EasyPow.search_prefix(:md5, '1' * 24, 15, 'prefix', 'suffix', '0123456789')

@@ -1,0 +1,15 @@
+[package]
+name = "easy_pow_rb"
+version = "0.2.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "easy_pow_rb"
+crate-type = ["cdylib"]
+
+[dependencies]
+magnus = { version = "0.6", features= ["bytes"] }
+easy_pow = { path = "../easy_pow" }
+bytes = "1.5.0"

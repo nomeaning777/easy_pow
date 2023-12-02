@@ -1,5 +1,5 @@
 require 'easy_pow/version'
-require 'easy_pow/ext'
+require_relative 'easy_pow/easy_pow_rb'
 require 'securerandom'
 require 'digest/sha2'
 
@@ -13,7 +13,7 @@ module EasyPow
     ['sha512', 512]
   ]
 
-  def search_prefix(hash, bin, length, prefix, suffix = '', chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', parallel = true)
+  def search_prefix(hash, bin, length, prefix, suffix = '', chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
     len = @@hashes.select{|a|a[0] == hash.to_s.downcase}[0]
     raise ArgumentError.new('Unknown hash type: %s' % [hash.to_s.downcase]) unless len
     len = len[1] / 8
@@ -24,10 +24,10 @@ module EasyPow
       mask[i / 8] |= 1 << (7 - i % 8)
       target[i / 8] |= b.to_i << (7 - i % 8)
     end
-    send 'search_' + hash.to_s.downcase + '_ext', prefix, suffix, length, target.pack("C*"), mask.pack("C*"), chars, parallel
+    search hash.to_s.downcase, prefix.chars + [chars] * length + suffix.chars, target.pack("C*"), mask.pack("C*")
   end
 
-  def search_suffix(hash, bin, length, prefix, suffix = '', chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', parallel = true)
+  def search_suffix(hash, bin, length, prefix, suffix = '', chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
     len = @@hashes.select{|a|a[0] == hash.to_s.downcase}[0]
     raise ArgumentError.new('Unknown hash type: %s' % [hash.to_s.downcase]) unless len
     len = len[1] / 8
@@ -38,7 +38,7 @@ module EasyPow
       mask[-(i / 8) - 1] |= 1 << (i % 8)
       target[-(i / 8) - 1] |= b.to_i << (i % 8)
     end
-    send 'search_' + hash.to_s.downcase + '_ext', prefix, suffix, length, target.pack("C*"), mask.pack("C*"), chars, parallel
+    search hash.to_s.downcase, prefix.chars + [chars] * length + suffix.chars, target.pack("C*"), mask.pack("C*")
   end
 
   def easy_pow(bits, socket = nil)
